@@ -24,11 +24,24 @@
     <div class="card"><h2><a href="/go/book">Book service</a></h2><p>Live booking on unitedmobilerv.com.</p></div>
     <div class="card" id="text"><h2><a href="sms:+16166065277">Prefer Text</a></h2><p>(616) 606-5277 — city/ZIP, rig, what’s failing.</p></div>
     <div class="card"><h2><a href="https://umrt-pay.pages.dev/">Pay</a></h2><p>Square first hour + trip $225.</p></div>
-    <div class="card"><h2><a href="https://umrt-status.pages.dev/">Status</a></h2><p>Hours and corridor notes.</p></div>
+    <div class="card"><h2><a href="https://umrt-status.pages.dev/">Status</a></h2><p id="js-go-status">Hours and corridor notes.</p></div>
 
     <p><a class="btn" href="sms:+16166065277">Prefer Text (616) 606-5277</a>
        <a class="btn btn-ghost" href="https://unitedmobilerv.com/book-service/">Book service</a></p>
     <p class="fine">Starlink installs only — never “Certified”. Soft hub · Domain HOLD.</p>
   </main>
+<script>
+fetch('https://united-mobile-rv.pages.dev/api/status')
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (!d.success) return;
+    var s = d.status;
+    var el = document.getElementById('js-go-status');
+    if (el && s.status_note && s.current_location) {
+      el.textContent = s.status_note + ' ' + s.current_location + '. ' + (s.hours || '');
+    }
+  })
+  .catch(function(){});
+</script>
 </body>
 </html>
